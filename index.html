@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>    
+</head>
+<body>
+
+    <h1>Why am I coding a game engine using jQuery...</h1>
+
+    <div id="gameCanvas">
+        <div id="gameImage"></div>
+        <div id="gameTextBox" onClick="speedUp()"><h3 id="characterName">NAME</h3><p id="gameText"></p><div id="gameButtonContainer"></div></div>
+    </div>
+    <script src="graphics.js"></script> 
+    <button type="button" onclick="changeCharacter('cat.jpeg','fade-in')">Cat - fade</button>
+    <button type="button" onclick="changeCharacter('cat.jpeg','shake')">Cat - shake</button>
+    <button type="button" onclick="changeCharacter('cat.jpeg','nod')">Cat - nod</button>
+    <button type="button" onclick="changeCharacter('cat.jpeg','none')">Cat - none</button>
+    <button type="button" onclick="changeCharacter('dog.jpg','fade-in')">Dog - fade</button>
+    <button type="button" onclick="changeCharacter('dog.jpg','shake')">Dog - shake</button>
+    <button type="button" onclick="changeCharacter('dog.jpg','nod')">Dog - nod</button>
+    <button type="button" onclick="changeCharacter('dog.jpg','none')">Dog - none</button>
+    <button type="button" onclick="initiateText('HI I AM AN ANIMAL! THIS IS TO TEST HOW LONG THIS TEXT CAN BE MUAHAHAHAHAHHHHHHHHHH AHHNFUEKBWJGVWD')">text</button>
+    <button type="button" onclick="gameSequence = SEG1_1; runGame();">RUN</button>
+
+</body>
+</html>
