@@ -30,15 +30,19 @@ var text;
 var speed = 50;
 var textDuration = 6000;
 var waitingDuration = 3000;
+var spedUpAlr = 0;
 
 function speedUp(){
-    if(speed == 0) waitingDuration = 0;
-    speed = 0;
+    if(spedUpAlr == 0) speed = speed / 3;
+    else if(spedUpAlr == 1) speed = 0, waitingDuration = text.length * 20;
+    else waitingDuration = 0;
+    spedUpAlr = spedUpAlr + 1;
 }
 
 function initiateText(newText){
     document.getElementById("gameText").innerHTML = "";
     textIndex = 0;
+    spedUpAlr = false;
     text = newText;
     speed = (textDuration / newText.length);
     waitingDuration = newText.length * 40;
@@ -49,7 +53,8 @@ function changeText(){
     if (textIndex < text.length) {
         document.getElementById("gameText").innerHTML += text.charAt(textIndex);
         textIndex++;
-        setTimeout(changeText, speed);
+        if(speed > 0){ setTimeout(changeText, speed); }
+        else { changeText(); }
     }
 }
 
@@ -88,6 +93,7 @@ var gameSequence1_2 = [
 var options = [];
 
 var SEG1_1 = [
+    ["run", ()=>{options = []}],
 	["text","Sitting in her office, Dr. Kris Wong is reviewing her patient appointments on her computer. This morning, she will be visited by Mr. Henry Chan who has been suspected of cancer. His X-ray and blood tests are sitting on her desk. "],
 	["img-fade-in","Clinic"],
 	["text","How will she break the bad news, explain the diagnosis, and discuss management options? You decide!"],
@@ -105,10 +111,12 @@ var SEG1_1_B = [
 
 var SEG1_2 = [
 	["text","Dr. Wong takes out the imaging and blood test reports."],
-	["button","<button type=\"button\" onclick=\"gameSequence = SEG1_3; runGame();\">\"You have cancer. If you want, we can schedule you for chemoradiation therapy.\"</button><button type=\"button\" onclick=\"gameSequence = SEG1_2_B; runGame();\">\"Your X-ray and blood report both confirm our previous suspicion that you have cancer. Our current way to control it is by using chemoradiation therapy. The radiotherapy will help kill the tumor  in bulk, then we will start 3-6 months of chemotherapy to kill the disseminated cancer cells.\" \"However, during the therapy you may feel pain, nausea, and you will have to come to the clinic on the weeks with chemotherapy cycles. Also, while it helps patients achieve several years of cancer-free survival, it does not guarantee that you will be cured permanently. Is that okay with you?\"</button>"]
+	["button","<button type=\"button\" onclick=\"gameSequence = SEG1_3; runGame();\">\"You have cancer. If you want, we can schedule you for chemoradiation therapy.\"</button><button type=\"button\" onclick=\"gameSequence = SEG1_2_B; runGame();\">(Carefully explain the report and seek consent)</button>"]
 ]
 
 var SEG1_2_B = [
+    ["text","\"Your X-ray and blood report both confirm our previous suspicion that you have cancer. Our current way to control it is by using chemoradiation therapy. The radiotherapy will help kill the tumor  in bulk, then we will start 3-6 months of chemotherapy to kill the disseminated cancer cells.\""],
+	["text","\"However, during the therapy you may feel pain, nausea, and you will have to come to the clinic on the weeks with chemotherapy cycles. Also, while it helps patients achieve several years of cancer-free survival, it does not guarantee that you will be cured permanently. Is that okay with you?\""],
 	["text","\"Dr. Wong educates the patient on the diagnosis, explains treatment options and the potential benefits and risks before seeking consent. {Informed consent +1}\""],
 	["run",()=>{gameSequence = SEG1_3; runGame();}]
 ]
@@ -123,7 +131,7 @@ var SEG1_3 = [
 	["text","\"Are there any alternative treatments?\""],
 	["buttonWait","<button type=\"button\" onclick=\"options.push(0);\">\"There is also targeted therapy and immunotherapy that works for other cancer types. But in your case this treatment provides the best outcomes.\"</button><button type=\"button\" onclick=\"options.push(1);\">\"It is the only effective treatment option.\"</button>"],
 	["text","Mr. Chan is making a decision based on Kris' explanation..."],
-	["run",()=>{if(options[0] + options[1] + options[2] == 0){gameSequence = SEG1_3_A;}else{gameSequence = SEG2_1;} runGame();}]
+	["run",()=>{if(options[0] + options[1] + options[2] == 0){gameSequence = SEG1_3_A;}else{gameSequence = SEG1_3_B} runGame();}]
 ]
 
 
@@ -132,7 +140,65 @@ var SEG1_3_A = [
 	["run",()=>{gameSequence = SEG2_1; runGame();}]
 ]
 
-var SEG2_1 = []
+var SEG1_3_B = [
+	["text","\"Um... Chemoradiation sounds too shady for me. I don’t want to get it. I will get symptomatic relief instead. \""],
+	["run",()=>{gameSequence = SEG2_1; runGame();}]
+]
+
+var SEG2_1 = [
+	["img-fade-in","Clinic + Dr. Kris Wong "],
+	["run",()=>{if(options[0] + options[1] + options[2] == 0){gameSequence = SEG2_C_1;}else{gameSequence = SEG2_N_1;} runGame();}]
+]
+
+var SEG2_N_1 = [
+	["text","2 weeks later..."],
+	["text","You hesitate. Although the success rate of chemoradiation is uncertain, Mr. Chan will definitely die from cancer if he decides to receive only palliative care. You try to persuade him."],
+	["button","<button type=\"button\" onclick=\"gameSequence = SEG2_N_2; runGame();\">Exaggerate the benefits of chemotherapy without mentioning its risks in order to obtain Mr. Chan's consent</button><button type=\"button\" onclick=\"gameSequence = SEG2_N_3; runGame();\">Alleviate Mr. Chan's worries about risks of chemoradiation</button>"]
+]
+
+var SEG2_N_2 = [
+	["text","\"Mr. Chan, chemotherapy can certainly rehabilitate you. Imagine that you recovered. You would have a new life, with a healthy body. Isn't it better than giving up and waiting to die?\""],
+	["text","Mr. Chan makes his decision..."],
+	["run",()=>{if(Math.random() > 0.5){gameSequence = SEG2_N_4;}else{gameSequence = END1;} runGame();}]
+]
+
+var SEG2_N_3 = [
+	["text","\"Mr. Chan, I understand your concerns. Many of my patients told me that they are afraid of suffering from severe side effects while they still have a higher chance to die after torturous therapy. But the severity of these effects varies from person to person. We can have some discussions during treatment so the therapy can be adjusted to alleviate your agony. Also, despite temporary discomfort, chemoradiation may lengthen your life in the long run. Would you like to have a second thought?\""],
+	["text","Mr. Chan makes his decision..."],
+	["run",()=>{if(Math.random() > 0.5){gameSequence = SEG2_C_1;}else{gameSequence = SEG2_N_4;} runGame();}]
+]
+
+var SEG2_N_4 = [
+	["text","Mr. Chan still refuses any treatment. You find his decision very unwise. "],
+	["button","<button type=\"button\" onclick=\"gameSequence = SEG2_N_5; runGame();\">You respect Mr. Chan's autonomy and record that he prefers palliative care.</button><button type=\"button\" onclick=\"gameSequence = END2; runGame();\">You find Mr. Chan wrong. You believe that as a doctor, you are responsible to sustain patients' lives under any circumstances. Therefore, you marked down that Mr. Chan would like to receive chemoradiation.</button>"]
+]
+
+var SEG2_N_5 = [
+	["img-fade-in","Hospital bed + Mr. Chan"],
+	["text","2 months later ... Mr. Chan revisits the hospital and receives medications for symptom control. Yet, as symptoms worsens, increased dosage of medications seems futile in relieving Mr. Chan's torment. When you make a ward round, Mr. Chan grasps your hand. With tears falling down his sweaty face, he croaks, \"Dr. Wong, this cancer is so unbearable. I'm ... I'm always tired. But my joints are too painful that I cannot sleep ... I always vomit blood ... I can't eat sometimes. Doctor, please ... please kill me. I cannot live in this way for a day more.\" You reply, with sympathy, \"I will prescribe more medicine to you so ...\" \"No. That no longer works,\" interrupts Mr. Chan, \"kill me please! please! I will not blame you for that! I agreed for euthanasia!\" Mr. Chan coughs terribly after the sentence."],
+	["button", "<button type=\"button\" onclick=\"gameSequence = END4; runGame();\">End the old man's pain</button><button type=\"button\" onclick=\"gameSequence = SEG3_1; runGame();\">Do nothing</button>"]
+]
+
+var SEG2_C_1 = [
+	["text","2 months later ... Mr. Chan starts his chemoradiation therapy. Is the therapy successful?"],
+	["run",()=>{if(Math.random() > 0.5){gameSequence = SEG3_1;}else{gameSequence = END3;} runGame();}]
+]
+
+var END1 = [
+	["text","END 1 - You didn't get his informed consent pal... Why would you even decieve him???"]
+]
+
+var END2 = [
+	["text","END 2 - SMH How dumb do you need to be to fill in things that the patient didn't say"]
+]
+
+var END3 = [
+	["text","END 3 - Happy ending he is cured HURRAY!"]
+]
+
+var SEG3_1 = [
+	["text","SEG 3 - Wait for me to continue this story please... I know deadline is close but give me time :P"]
+]
 
 var gameSequence = SEG1_1;
 
