@@ -7,8 +7,8 @@ function sleep(ms) {
 }
 
 var imgSource = {
-    "cat": "cat.jpeg",
-    "dog": "dog.jpg"
+    "Clinic + Mr. Chan": "cat.jpeg",
+    "clinic": "dog.jpg"
 }
 
 // controller for the character images
@@ -91,9 +91,11 @@ var gameSequence1_2 = [
 ]
 
 var options = [];
+var askD = 0;
+var askS = 0;
 
 var SEG1_1 = [
-    ["run", ()=>{options = []}],
+    ["run", ()=>{options = []; askD = 0; askS = 0;}],
 	["text","Sitting in her office, Dr. Kris Wong is reviewing her patient appointments on her computer. This morning, she will be visited by Mr. Henry Chan who has been suspected of cancer. His X-ray and blood tests are sitting on her desk. "],
 	["img-fade-in","Clinic"],
 	["text","How will she break the bad news, explain the diagnosis, and discuss management options? You decide!"],
@@ -175,7 +177,10 @@ var SEG2_N_4 = [
 
 var SEG2_N_5 = [
 	["img-fade-in","Hospital bed + Mr. Chan"],
-	["text","2 months later ... Mr. Chan revisits the hospital and receives medications for symptom control. Yet, as symptoms worsens, increased dosage of medications seems futile in relieving Mr. Chan's torment. When you make a ward round, Mr. Chan grasps your hand. With tears falling down his sweaty face, he croaks, \"Dr. Wong, this cancer is so unbearable. I'm ... I'm always tired. But my joints are too painful that I cannot sleep ... I always vomit blood ... I can't eat sometimes. Doctor, please ... please kill me. I cannot live in this way for a day more.\" You reply, with sympathy, \"I will prescribe more medicine to you so ...\" \"No. That no longer works,\" interrupts Mr. Chan, \"kill me please! please! I will not blame you for that! I agreed for euthanasia!\" Mr. Chan coughs terribly after the sentence."],
+	["text","2 months later ... Mr. Chan revisits the hospital and receives medications for symptom control. Yet, as symptoms worsens, increased dosage of medications seems futile in relieving Mr. Chan's torment."],
+	["text","When you make a ward round, Mr. Chan grasps your hand. With tears falling down his sweaty face, he croaks, \"Dr. Wong, this cancer is so unbearable. I'm ... I'm always tired. But my joints are too painful that I cannot sleep ... I always vomit blood ... I can't eat sometimes. Doctor, please ... please kill me. I cannot live in this way for a day more.\" You reply, with sympathy, \"I will prescribe more medicine to you so ...\" \"No. That no longer works,\" interrupts Mr. Chan, \"kill me please! please! I will not blame you for that! I agreed for euthanasia!\" Mr. Chan coughs terribly after the sentence."],
+	["text","You reply, with sympathy, \"I will prescribe more medicine to you so ...\""],
+	["text"," \"No. That no longer works,\" interrupts Mr. Chan, \"kill me please! please! I will not blame you for that! I agreed for euthanasia!\" Mr. Chan coughs terribly after the sentence."],
 	["button", "<button type=\"button\" onclick=\"gameSequence = END4; runGame();\">End the old man's pain</button><button type=\"button\" onclick=\"gameSequence = SEG3_1; runGame();\">Do nothing</button>"]
 ]
 
@@ -183,6 +188,72 @@ var SEG2_C_1 = [
 	["text","2 months later ... Mr. Chan starts his chemoradiation therapy. Is the therapy successful?"],
 	["run",()=>{if(Math.random() > 0.5){gameSequence = SEG3_1;}else{gameSequence = END3;} runGame();}]
 ]
+
+
+var SEG3_1 = [
+	["text","You are swiftly called to Mr. Chan' s medical ward. His consciousness is lost but there is still the faint sound of breathing and the weak beating of the heart. Yet, you cannot sway the feeling that a cardiac arrest is imminent."],
+	["img-fade-in"," Mr. Chan in com "],
+	["text","Your duties as a doctor mandate that you should do your best to heal your patient, yet you recall Mr. Chan's suffering and is unsure whether he will desire to be resuscitated. With the severity of his condition, resuscitation may be futile or even more hazardous.  As Mr. Chan's son and daughter are rushing towards the hospital, you contemplate your future decision."],
+	["button","<button type=\"button\" onclick=\"gameSequence = SEG3_1_A; runGame();\">Wait for Mr. Chan's son and daughter</button><button type=\"button\" onclick=\"gameSequence = SEG3_1_B; runGame();\">Search for an Advanced Directive</button><button type=\"button\" onclick=\"gameSequence = SEG3_1_C; runGame();\">Make the decision on your own</button>"]
+]
+
+var SEG3_1_Buttons = [
+	["button","<button type=\"button\" onclick=\"gameSequence = SEG3_1_A; runGame();\">Wait for Mr. Chan's son and daughter</button><button type=\"button\" onclick=\"gameSequence = SEG3_1_B; runGame();\">Search for an Advanced Directive</button><button type=\"button\" onclick=\"gameSequence = SEG3_1_C; runGame();\">Make the decision on your own</button>"]
+]
+
+var SEG3_1_B = [
+	["img-fade-in"," Empty drawer, clinic b"],
+	["text","An advanced directive has not been made."],
+	["run",()=>{gameSequence = SEG3_1_Buttons; runGame();}]
+]
+
+var SEG3_1_C = [
+	["text","You decided that your own experience in the clinical healthcare setting is adequate for you to make the most judicious decision. As Mr. Chan's offspring arrive, you inform them of the risk of imminent cardiac arrest, yet do not inquire about Mr. Chan's desire. "],
+	["img-fade-in"," Mr. Chan in coma, Mr. Chan's son frowning, Mr. Chan's daughter frownin"],
+	["run",()=>{gameSequence = SEG3_2; runGame();}]
+]
+
+var SEG3_1_A = [
+	["text","Mr. Chan's offspring, Mary and John, rush into the ward, both carrying a worried look. You decide to inquire about Mr. Chan's wish on whether to be resuscitated."],
+	["button", "<button type=\"button\" onclick=\"gameSequence = SEG3_1_A_A; runGame();\">Ask Mary</button><button type=\"button\" onclick=\"gameSequence = SEG3_1_A_B; runGame();\">Ask John</button><button type=\"button\" onclick=\"gameSequence = SEG3_2; runGame();\">Explain your decision</button>"],
+	["img-fade-in"," Mr. Chan in coma, Mr. Chan's son neutral, Mr. Chan's daughter neutra"],
+]
+
+
+var SEG3_1_A_A = [
+	["textC","Every time I visit our father, he says that he is just waiting to die...", ()=>{if(askD == 0){return true;} return false;}],
+	["textC","Our father had always said that he already lived a long and fulfillinglife... ", ()=>{if(askD == 1){return true;} return false;}],
+	["textC","Our father once told me that he is in so much pain that if his heartstopped, don't even try to save him...", ()=>{if(askD == 2){return true;} return false;}],
+	["run",()=>{askD = askD + 1; gameSequence = SEG3_1_A; if(askS + askD >= 3){gameSequence = SEG3_2;} runGame();}]
+]
+
+
+var SEG3_1_A_B = [
+	["textC","Our father constantly preached the gift of longevity to us, he wouldlike to live as long as possible.", ()=>{if(askS == 0){return true;} return false;}],
+	["textC","Our father had always loved his friends and family, he would cherish his time alive.", ()=>{if(askS == 1){return true;} return false;}],
+	["textC","Our father once told me that he would hang on with his greateststrength to spend time with us...", ()=>{if(askS == 2){return true;} return false;}],
+	["run",()=>{askS = askS + 1; gameSequence = SEG3_1_A; if(askS + askD >= 3){gameSequence = SEG3_2;} runGame();}]
+]
+
+
+var SEG3_2 = [
+	["text","You are about to explain your further action, but...Mr. Chan's cardiac monitor begins blaring. His heart rate is zero. It is time to make your decision."],
+	["img-fade-in"," Alternate between 'Mr. Chan coma' and 'Mr. Chan coma (Red filter)"],
+	["button", "<button type=\"button\" onclick=\"gameSequence = SEG3_2_A; runGame();\">Resuscitate Mr. Chan</button><button type=\"button\" onclick=\"gameSequence = SEG3_3; runGame();\">Do not resuscitate Mr. Chan</button>"]
+]
+
+
+var SEG3_2_A = [
+	["text","You immediately instruct healthcare professionals to attempt CPR. As time goes on, Mr. Chan still does not resume breathing.Hope for Mr. Chan's survival goes dimmer."],
+	["run",()=>{gameSequence = SEG3_3; runGame();}]
+]
+
+
+var SEG3_3 = [
+	["text","You ultimately decide to cease the CPR and declare Mr. Chan's death. "],
+	["run",()=>{if(askS > 0 && askD > 0){gameSequence = END4;}else{gameSequence = END5;} runGame();}]
+]
+
 
 var END1 = [
 	["text","END 1 - You didn't get his informed consent pal... Why would you even decieve him???"]
@@ -196,8 +267,12 @@ var END3 = [
 	["text","END 3 - Happy ending he is cured HURRAY!"]
 ]
 
-var SEG3_1 = [
-	["text","SEG 3 - Wait for me to continue this story please... I know deadline is close but give me time :P"]
+var END4 = [
+	["text","END 4 - Mr Chan passed away, but he had a great life and their family feel sad but relieved"]
+]
+
+var END5 = [
+	["text","END 5 - Mr Chan passed away, and is very sad for their family"]
 ]
 
 var gameSequence = SEG1_1;
@@ -212,6 +287,15 @@ async function runGame(){
             while(textIndex < text.length && speed != 0){ await sleep(speed); }
             await sleep(waitingDuration / 10);
             for(let i = 1; i < 10 && waitingDuration != 0; i++) { await sleep(waitingDuration / 10); }
+        }
+        else if(gameEvent[0] == "textC"){
+            // conditional texts
+            if(gameEvent[2]() == true){
+                initiateText(gameEvent[1]);
+                while(textIndex < text.length && speed != 0){ await sleep(speed); }
+                await sleep(waitingDuration / 10);
+                for(let i = 1; i < 10 && waitingDuration != 0; i++) { await sleep(waitingDuration / 10); }
+            }   
         }
         else if(gameEvent[0].substring(0, 3) == "img"){
             // directly handle the image, no need await (hopefully)
@@ -232,6 +316,7 @@ async function runGame(){
             document.getElementById("gameButtonContainer").innerHTML = "";
         }
         else if(gameEvent[0] == "run"){
+            document.getElementById("gameText").innerHTML = "";
             gameEvent[1]();
         }
     }
