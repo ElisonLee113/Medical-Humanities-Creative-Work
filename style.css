@@ -19,16 +19,39 @@
     100% { transform: translateY(0) }
 }
 
+@keyframes vertical-slow-shaking {
+    0% { transform: translateY(0) }
+    25% { transform: translateY(5px) }
+    90% { transform: translateY(-5px) }
+    95% { transform: translateY(5px) }
+    100% { transform: translateY(0) }
+}
+
+#characterName {
+    font-size: 0.9rem;
+}
+
 #gameCanvas {
-    width: 50%;
-    aspect-ratio: 4 / 3;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left:0;
+    right:0;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    aspect-ratio: 2 / 1;
     border:1px solid #d3d3d3;
 }
 
 #gameImage{
+    position: relative;
     width: 100%;
     height: 70%;
     border:1px solid red;
+    background: gray;
 }
 
 #gameTextBox{
@@ -41,11 +64,24 @@
     padding-bottom: 3%;
 }
 
-#gameButtonBox{
-    z-index: 2;
+#gameButtonContainer{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left:0;
+    right:0;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 5;
 }
 
 .inGameImage {
+    position: absolute;
+    top: 0;
+    left:0;
+    right:0;
     display: block;
     max-width: 100%;
     max-height: 100%;
@@ -64,6 +100,64 @@
     animation: vertical-shaking 0.5s;
 }
 
+.sighImage {
+    animation: vertical-shaking 2s;
+}
+
 .fadeInImage{
     animation: fadeIn 2s;
 }
+
+p{
+    font-size: 0.7rem;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+button {
+  background-color: #fff;
+  border: 0 solid #e2e8f0;
+  border-radius: 1.5rem;
+  box-sizing: border-box;
+  color: #0d172a;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Basier circle",-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 1rem 1.6rem;
+  text-align: center;
+  text-decoration: none #0d172a solid;
+  text-decoration-thickness: auto;
+  transition: all .1s cubic-bezier(.4, 0, .2, 1);
+  box-shadow: 0px 1px 2px rgba(166, 175, 195, 0.25);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 94%;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-top: 4%;
+  z-index: 5;
+}
+
+button:hover {
+  background-color: #1e293b;
+  color: #fff;
+}
+
+@media (min-width: 1200px) {
+  p {
+    font-size: 1.1rem;
+  }
+  #characterName {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+    button {
+      font-size: 12px;
+      padding: 1rem 2rem;
+    }
+  }
