@@ -7,13 +7,20 @@ function sleep(ms) {
 }
 
 var imgSource = {
-    "Clinic + Mr. Chan": "cat.jpeg",
-    "clinic": "dog.jpg"
+    "Mr. Chan": "chan.jpg",
+    "SD angry": "Endangry.png",
+    "SD happy": "Endhappy.png",
+    "Chan cure stand": "EndCure.png",
+    "Chan happy pass": "EndHappyPass.png",
+    "Chan sad pass": "EndSadDeath.png",
+    "No consent": "EndNoConsent.png",
+    "Chan cure bed": "EndHappySurvive.png",
 }
 
 // controller for the character images
 
 async function changeCharacter(name, animation){
+    name = "./img/" + name;
     var currentImage = document.getElementById('characterShown');
     if(currentImage != null){
         currentImage.remove();
@@ -21,6 +28,7 @@ async function changeCharacter(name, animation){
     if(animation == "fade-in")  $("#gameImage").append("<img id='characterShown' src='" + name + "' class='inGameImage fadeInImage'/>");
     else if(animation == "shake")  $("#gameImage").append("<img id='characterShown' src='" + name + "' class='inGameImage shakeImage'/>");
     else if(animation == "nod")  $("#gameImage").append("<img id='characterShown' src='" + name + "' class='inGameImage nodImage'/>");
+    else if(animation == "sigh")  $("#gameImage").append("<img id='characterShown' src='" + name + "' class='inGameImage sighImage'/>");
     else $("#gameImage").append("<img id='characterShown' src='" + name + "' class='inGameImage'/>");
 }
 
@@ -99,9 +107,9 @@ var SEG1_1 = [
 	["text","Sitting in her office, Dr. Kris Wong is reviewing her patient appointments on her computer. This morning, she will be visited by Mr. Henry Chan who has been suspected of cancer. His X-ray and blood tests are sitting on her desk. "],
 	["img-fade-in","Clinic"],
 	["text","How will she break the bad news, explain the diagnosis, and discuss management options? You decide!"],
-	["img-fade-in","Clinic + Dr. Kris Wong"],
+	["img-fade-in","Dr. Kris Wong"],
 	["text","Mr. Chan knocks on the door. He approaches slowly and sits down in front of Dr. Wong's desk. He seems to be frowning and looking unconfident. He says, meekly, \"Good morning doctor... I've sent you the tests you told me to get last time. Am I okay?\" "],
-	["img-fade-in","Clinic + Mr. Chan"],
+	["img-sigh","Mr. Chan"],
 	["button", "<button type=\"button\" onclick=\"gameSequence = SEG1_2; runGame();\">\"You'll be fine.\"</button><button type=\"button\" onclick=\"gameSequence = SEG1_1_B; runGame()\">\"You seem a little anxious about the tests, aren't you? Let's talk about it today. If at some point you have a question, let me know. We'll first understand the situation then decide what we can do about it.\"</button>"]
 ]
 
@@ -125,7 +133,7 @@ var SEG1_2_B = [
 
 
 var SEG1_3 = [
-	["img-fade-in","Clinic + Mr. Chan"],
+	["img-fade-in","Mr. Chan"],
 	["text","<Minigame: Patient's questions> Mr. Chan slouches and sighs. He asks,\"How does chemotherapy work?\" "],
 	["buttonWait","<button type=\"button\" onclick=\"options.push(0);\">Directly killing cancer cells, controlling their growth and spread.</button><button type=\"button\" onclick=\"options.push(1);\">Feeds chemicals to strengthen your body and fight cancer cells.</button>"],
     ["text","\"What is the success rate of chemotherapy?\""],
@@ -148,7 +156,7 @@ var SEG1_3_B = [
 ]
 
 var SEG2_1 = [
-	["img-fade-in","Clinic + Dr. Kris Wong "],
+	["img-fade-in","Dr. Kris Wong "],
 	["run",()=>{if(options[0] + options[1] + options[2] == 0){gameSequence = SEG2_C_1;}else{gameSequence = SEG2_N_1;} runGame();}]
 ]
 
@@ -181,7 +189,7 @@ var SEG2_N_5 = [
 	["text","When you make a ward round, Mr. Chan grasps your hand. With tears falling down his sweaty face, he croaks, \"Dr. Wong, this cancer is so unbearable. I'm ... I'm always tired. But my joints are too painful that I cannot sleep ... I always vomit blood ... I can't eat sometimes. Doctor, please ... please kill me. I cannot live in this way for a day more.\" You reply, with sympathy, \"I will prescribe more medicine to you so ...\" \"No. That no longer works,\" interrupts Mr. Chan, \"kill me please! please! I will not blame you for that! I agreed for euthanasia!\" Mr. Chan coughs terribly after the sentence."],
 	["text","You reply, with sympathy, \"I will prescribe more medicine to you so ...\""],
 	["text"," \"No. That no longer works,\" interrupts Mr. Chan, \"kill me please! please! I will not blame you for that! I agreed for euthanasia!\" Mr. Chan coughs terribly after the sentence."],
-	["button", "<button type=\"button\" onclick=\"gameSequence = END4; runGame();\">End the old man's pain</button><button type=\"button\" onclick=\"gameSequence = SEG3_1; runGame();\">Do nothing</button>"]
+	["button", "<button type=\"button\" onclick=\"gameSequence = END6; runGame();\">End the old man's pain</button><button type=\"button\" onclick=\"gameSequence = SEG3_1; runGame();\">Do nothing</button>"]
 ]
 
 var SEG2_C_1 = [
@@ -254,25 +262,80 @@ var SEG3_3 = [
 	["run",()=>{if(askS > 0 && askD > 0){gameSequence = END4;}else{gameSequence = END5;} runGame();}]
 ]
 
+function activateEnding(){
+    var currentImage = document.getElementById('characterShown');
+    if(currentImage != null){
+        currentImage.remove();
+    }
+    $("#characterName").css('color', 'white');
+    $("#gameText").css('color', 'white');
+    document.getElementById("backgroundImage").style.removeProperty('background-image');
+    $("#backgroundImage").css('background-color', 'black');
+    $("#gameImage").css('background-color', 'black');
+    $("#gameTextBox").css('background-color', 'black');
+}
 
 var END1 = [
-	["text","END 1 - You didn't get his informed consent pal... Why would you even decieve him???"]
+    ["run",activateEnding],
+	["text","END 1 - Decieving patient"],
+    ["img-fade-in","No consent"],
+    ["text","Informed consent and respecting patients' autonomy are always required."],
+	["text","Consent given without sufficient information provided (e.g. missing risks of treatment) are not informed, therefore not considered valid."],
+	["text","You are complainted for grave dereliction of duty. You will face disciplinary and/or legal punishment. Penalty is determined by the effects on the patient (e.g. does the patient suffer from any physical/mental harm? is the therapy successful?) and the effects on public interest (e.g. does this accident undermine public confidence in the hospital? how severe should the penalty be in order to warn other healthcare professionals?)"],
+	["text","You are required to attend disciplinary inquiry by the Hospital Authority and may be prohibited to practise medicine temporarily or permantly. You have offended Offence against the Person Ordinance (Cap. 212), Section 7 \"Manslaughter\"-	In severe case (e.g. the patient died, this case lower credibility of  HK's healthcare system), you will be prosecuted for \"gross negligence manslaughter\" (\"medical negligence\") and may face maximum sentence of life prisonment."]
 ]
 
 var END2 = [
-	["text","END 2 - SMH How dumb do you need to be to fill in things that the patient didn't say"]
+    ["run",activateEnding],
+	["text","END 2 - Fabricating consent"],
+    ["img-fade-in","No consent"],
+    ["text","Informed consent and respecting patients' autonomy are always required."],
+	["text","Consent given without sufficient information provided (e.g. missing risks of treatment) are not informed, therefore not considered valid."],
+	["text","You are complainted for grave dereliction of duty. You will face disciplinary and/or legal punishment. Penalty is determined by the effects on the patient (e.g. does the patient suffer from any physical/mental harm? is the therapy successful?) and the effects on public interest (e.g. does this accident undermine public confidence in the hospital? how severe should the penalty be in order to warn other healthcare professionals?)"],
+	["text","You are required to attend disciplinary inquiry by the Hospital Authority and may be prohibited to practise medicine temporarily or permantly. You have offended Offence against the Person Ordinance (Cap. 212), Section 7 \"Manslaughter\"-	In severe case (e.g. the patient died, this case lower credibility of  HK's healthcare system), you will be prosecuted for \"gross negligence manslaughter\" (\"medical negligence\") and may face maximum sentence of life prisonment."]
 ]
 
 var END3 = [
-	["text","END 3 - Happy ending he is cured HURRAY!"]
+    ["run",activateEnding],
+    ["img-fade-in","Chan cure bed"],
+	["textC","END 3 - Success!", ()=>{if(options[0] + options[1] + options[2] == 0){return true;} return false;}],
+	["textC","END 3 - Success...?", ()=>{if(options[0] + options[1] + options[2] == 0){return false;} return true;}],
+    ["textC","Thanks to your acquaintance with medical knowledge and massive experience, the therapy is well planned and monitored. The spread of cancer cells is effectively controlled and these cells are eventually killed.", ()=>{if(options[0] + options[1] + options[2] == 0){return true;} return false;}],
+	["textC","Congratulations! Mr. Chan is cured.", ()=>{if(options[0] + options[1] + options[2] == 0){return true;} return false;}],
+	["textC","Congratulations! Mr. Chan is cured. You succeed ...?", ()=>{if(options[0] + options[1] + options[2] == 0){return false;} return true;}],
+    ["img-fade-in","Chan cure stand"],
+    ["textC","At the day before leaving the hospital, Mr. Chan told you gratefully, \"Thank you so much, Dr. Wong. I was desparate when I was diagnosed with cancer. Thank you for supporting and healing me! The peer support group you suggested was very useful in maintaining optimism during chemoradiation. You are the nicest doctor I have met! Thanks a lot!\"", ()=>{if(options[0] + options[1] + options[2] == 0){return true;} return false;}],
+    ["textC","You are touched by Mr. Chan's sincere gratitude and are more motivated to save more patients' lives.", ()=>{if(options[0] + options[1] + options[2] == 0){return true;} return false;}],
+    ["textC","On the day leaving the hospital, Mr. Chan wants to give thanks for the successful chemoradiation. Nevertheless, glancing at your emotionless expression, Mr. Chan just leaves quietly, without saying a word.", ()=>{if(options[0] + options[1] + options[2] == 0){return false;} return true;}],
+    ["textC","After the daily ward round is completed, you return to yur office wearily. As the door is knocked, you robotically answer, with a tired voice saying \"Again...\" in your mind. ", ()=>{if(options[0] + options[1] + options[2] == 0){return false;} return true;}]
 ]
 
 var END4 = [
-	["text","END 4 - Mr Chan passed away, but he had a great life and their family feel sad but relieved"]
+    ["run",activateEnding],
+    ["img-fade-in","Chan happy pass"],
+	["text","END 4 - Fulfilling Passing"],
+	["text","Despite your best effort and long-term care, you ultimately could not save Mr. Chan from his demise. Yet, you know that death is inevitable in your profession."],
+    ["text","You observed that although Mary and John are miserable, they also seem to be glad that their father passed on peacefully. "],
+    ["img-fade-in","SD happy"],
+    ["text","Mary: Thank you for caring for our father for such a long period of time. I'm happy that he could spend his last few months in such good care."],
+	["text","John: Our father had a battle well-fought. Thank you, doctor, for prolonging his lifeand giving him a few more months to spend with us."],
+	["text","Albeit Mr. Chan's regrettable passing, you are content that you did your best and can satisfy his family. You are touched by this experience and are motivated to save more patients' lives. "]
 ]
 
 var END5 = [
-	["text","END 5 - Mr Chan passed away, and is very sad for their family"]
+    ["run",activateEnding],
+    ["img-fade-in","Chan sad pass"],
+	["text","END 5 - Remorseful passing"],
+    ["text","Despite your best effort and long-term care, you ultimately could not save Mr. Chan from his demise. Yet, you know that death is inevitable in your profession."]
+    ["img-fade-in","SD angry"],
+    ["text","You observed that Mary and John were both miserable about the outcome, and you could not help but think that it may turn out better if you were able to build consensus with the family when inquiring more about the patient's prior values and preferences."],
+	["text","As you pull your weary bag of bones back to your office, the door is knocked on impatiently again. You attempt to gather your strength once more, but you are no longer sure how many more deaths you can take..."]
+]
+
+var END6 = [
+    ["run",activateEnding],
+	["text","END 6 - Euthanasia???"],
+    ["text","Euthanasia is illegal in Hong Kong, be it voluntary or not. You are required to attend disciplinary inquiry by the Hospital Authority and may face permanent license suspension.-	You have offended Offence against the Person Ordinance (Cap. 212) , Section 33B(1). You will be prosecuted for \"aiding the suicide of others\" and may face maximum sentence of 14 years."]
 ]
 
 var gameSequence = SEG1_1;
@@ -299,8 +362,15 @@ async function runGame(){
         }
         else if(gameEvent[0].substring(0, 3) == "img"){
             // directly handle the image, no need await (hopefully)
-            document.getElementById("characterName").innerHTML = gameEvent[1];
             changeCharacter(imgSource[gameEvent[1]], gameEvent[0].substring(4));
+        }
+        else if(gameEvent[0] == "bg-img"){
+            // directly change the image source
+           
+            $("#backgroundImage").css("background-image",'url("./img/' + gameEvent[1] + '")');
+        }
+        else if(gameEvent[0] == "name"){
+            document.getElementById("characterName").innerHTML = gameEvent[1];
         }
         else if(gameEvent[0] == "button"){
             while (textIndex < text.length) { await sleep(100); }
