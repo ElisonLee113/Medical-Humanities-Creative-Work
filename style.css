@@ -127,6 +127,15 @@
     animation: fadeIn 2s;
 }
 
+.comaImage{
+    animation: fadeIn 2s infinite;
+}
+
+.emergencyImage{
+    animation: fadeIn 0.5s infinite;
+}
+
+
 p{
     font-size: 0.7rem;
     font-family: "Lucida Console", "Courier New", monospace;
