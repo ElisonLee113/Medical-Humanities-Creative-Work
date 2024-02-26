@@ -376,7 +376,7 @@ var END6 = [
 ]
 
 var ENDEND = [
-    ["button","<button type=\"button\" onclick=\"location.reload()\">Retry</button><button type=\"button\" onclick=\"window.location.href=\"./index.html\"\">Return to home</button>"],
+    ["button","<button type=\"button\" onclick=\"location.reload()\">Retry</button><button type=\"button\" onclick=\"window.location.href=\'./index.html\'\">Return to home</button>"],
     ["run", ()=>{displayStats();}]
 ]
 
