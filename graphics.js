@@ -11,7 +11,7 @@ var imgSource = {
     "Mr. Chan": "AI2_Chan.png",
     "Mr. Chan Coma": "AI2_Chan_coma.png",
     "Mr. Chan cry": "AI2_Chan_cry.png",
-    "Mr. Chan death": "AI2_Chan_death.png",
+    "Mr. Chan Death": "AI2_Chan_death.png",
     "Mary": "AI2_Mary.png",
     "John": "AI2_John.png",
     "SD angry": "Endangry.png",
@@ -109,20 +109,24 @@ var gameSequence1_2 = [
 var options = [];
 var askD = 0;
 var askS = 0;
+var O1 = 0;
+var O2 = 0;
+var O3 = 0;
 
 var SEG1_1 = [
-    ["run", ()=>{options = []; askD = 0; askS = 0;}],
+    ["run", ()=>{options = []; askD = 0; askS = 0; O1 = 0, O2 = 0, O3 = 0}],
     ["bg-img","clinicBackground.png"],
 	["text","Sitting in her office, Dr. Kris Wong is reviewing her patient appointments on her computer. This morning, she will be visited by Mr. Henry Chan who has been suspected of cancer. His X-ray and blood tests are sitting on her desk. "],
-	["text","How will she break the bad news, explain the diagnosis, and discuss management options? You decide!"],
-	["text","Mr. Chan knocks on the door. He approaches slowly and sits down in front of Dr. Wong's desk. He seems to be frowning and looking unconfident. He says, meekly, \"Good morning doctor... I've sent you the tests you told me to get last time. Am I okay?\" "],
+    ["text","How will she break the bad news, explain the diagnosis, and discuss management options? You decide!"],
+	["text","Mr. Chan knocks on the door. He approaches slowly and sits down in front of Dr. Wong's desk. He seems to be frowning and looking unconfident. He says meekly, \"Good morning doctor... I've sent you the tests you told me to get last time. Am I okay?\" "],
 	["img-fade-in","Mr. Chan"],
 	["button", "<button type=\"button\" onclick=\"gameSequence = SEG1_2; runGame();\">\"You'll be fine.\"</button><button type=\"button\" onclick=\"gameSequence = SEG1_1_B; runGame()\">\"You seem a little anxious about the tests, aren't you? Let's talk about it today. If at some point you have a question, let me know. We'll first understand the situation then decide what we can do about it.\"</button>"]
 ]
 
 var SEG1_1_B = [
     ["img-nod","Mr. Chan"],
-	["text","\"Dr. Wong observed Mr. Chan's anxiety and fear, expressed empathy and reassured the patient's active participation in decision making. {Empathetic relationship +1}\" "],
+	["text","Dr. Wong observed Mr. Chan's anxiety and fear, expressed empathy and reassured the patient's active participation in decision making. {Empathetic relationship +1} "],
+    ["run", ()=>{O1 = 1}],
 	["run",()=>{gameSequence = SEG1_2; runGame();}]
 ]
 
@@ -137,14 +141,16 @@ var SEG1_2_B = [
     ["img-nod","Mr. Chan"],
     ["text","\"Your X-ray and blood report both confirm our previous suspicion that you have cancer. Our current way to control it is by using chemoradiation therapy. The radiotherapy will help kill the tumor  in bulk, then we will start 3-6 months of chemotherapy to kill the disseminated cancer cells.\""],
 	["text","\"However, during the therapy you may feel pain, nausea, and you will have to come to the clinic on the weeks with chemotherapy cycles. Also, while it helps patients achieve several years of cancer-free survival, it does not guarantee that you will be cured permanently. Is that okay with you?\""],
-	["text","\"Dr. Wong educates the patient on the diagnosis, explains treatment options and the potential benefits and risks before seeking consent. {Informed consent +1}\""],
-	["run",()=>{gameSequence = SEG1_3; runGame();}]
+	["text","Dr. Wong educates the patient on the diagnosis, explains treatment options and the potential benefits and risks before seeking consent. {Informed consent +1}"],
+	["run", ()=>{O1 = 1}],
+    ["run",()=>{gameSequence = SEG1_3; runGame();}]
 ]
 
 
 var SEG1_3 = [
     ["img","Mr. Chan"],
-	["text","<Minigame: Patient's questions> Mr. Chan slouches and sighs. He asks,\"How does chemotherapy work?\" "],
+	["text","<Minigame: Patient's questions>"],
+    ["text","Mr. Chan slouches and sighs. He asks,\"How does chemotherapy work?\" "],
 	["buttonWait","<button type=\"button\" onclick=\"options.push(0);\">Directly killing cancer cells, controlling their growth and spread.</button><button type=\"button\" onclick=\"options.push(1);\">Feeds chemicals to strengthen your body and fight cancer cells.</button>"],
     ["img-nod","Mr. Chan"],
     ["text","\"What is the success rate of chemotherapy?\""],
@@ -167,8 +173,52 @@ var SEG1_3_A = [
 var SEG1_3_B = [
     ["img-shake","Mr. Chan"],
 	["text","\"Um... Chemoradiation sounds too shady for me. I don’t want to get it. I will get symptomatic relief instead. \""],
-	["run",()=>{gameSequence = SEG2_1; runGame();}]
+	["run",()=>{gameSequence = SEG1_4; runGame();}]
 ]
+
+var SEG1_4 = [
+	["text","Mr. Chan looks distressed as he prepares to leave. He musters up some effort to say \"Thank you, doctor\". Kris ponders what to do."],
+	["button", "<button type=\"button\" onclick=\"gameSequence = SEG1_5; runGame();\">\"I've scheduled when to start your treatment. See you then.\"</button><button type=\"button\" onclick=\"gameSequence = SEG1_4_B; runGame();\">(Hands over a leaflet)</button>"]
+]
+
+var SEG1_4_B = [
+    ["text","\"Some of my patients have found this cancer support group to be quite helpful. I noticed that taking care of your family means a lot to you, Mr. Chan. I encourage you to share your story and receive support from your family, friends, and the support group.\"   \"I'll be seeing you when you begin your treatment, take care.\""],
+    ["text","Dr. Wong referred Mr. Chan to a support group of cancer patients, caretakers and survivors. Based on listening and understanding the patient's priorities, she remind him of his resilience. {Empowerment +1}"],	
+    ["run", ()=>{O3 = 1}],
+    ["run",()=>{gameSequence = SEG1_5; runGame();}]
+]
+
+var SEG1_5 = [
+    ["text","In this segment, you can get a total of 3 marks, 1 each from {Empathetic relationship}, {Informed consent} and {Empowerment}."],
+    ["run",()=>{
+        if(O1 + O2 + O3 == 3) gameSequence = SEG1_5_A;
+        if(O1 + O2 + O3 == 2) gameSequence = SEG1_5_B;
+        if(O1 + O2 + O3 == 1) gameSequence = SEG1_5_C;
+        if(O1 + O2 + O3 == 0) gameSequence = SEG1_5_D;
+        runGame();
+    }]
+]
+
+var SEG1_5_A = [
+    ["text","Feeling satisfied, Kris prepares for her next appointment with Ms Lee."],
+    ["run",()=>{gameSequence = SEG2_1; runGame();}]
+]
+
+var SEG1_5_B = [
+    ["text","Feeling hopeful, Kris prepares for her next appointment with Ms Lee."],
+    ["run",()=>{gameSequence = SEG2_1; runGame();}]
+]
+
+var SEG1_5_C = [
+    ["text","Feeling dissatisfied, Kris prepares for her next appointment with Ms Lee."],
+    ["run",()=>{gameSequence = SEG2_1; runGame();}]
+]
+
+var SEG1_5_D = [
+    ["text","Feeling burnt-out, Kris prepares for her next appointment with Ms Lee."],
+    ["run",()=>{gameSequence = SEG2_1; runGame();}]
+]
+
 
 var SEG2_1 = [
     ["img-shake","Mr. Chan"],
@@ -250,7 +300,7 @@ var SEG3_1_C = [
 var SEG3_1_A = [
     ["img-coma","Mr. Chan coma"],
 	["text","Mr. Chan's offspring, Mary and John, rush into the ward, both carrying a worried look. You decide to inquire about Mr. Chan's wish on whether to be resuscitated."],
-	["button", "<button type=\"button\" onclick=\"gameSequence = SEG3_1_A_A; runGame();\">Ask Mary</button><button type=\"button\" onclick=\"gameSequence = SEG3_1_A_B; runGame();\">Ask John</button><button type=\"button\" onclick=\"gameSequence = SEG3_2; runGame();\">Explain your decision</button>"],
+	["button", "<button type=\"button\" onclick=\"gameSequence = SEG3_1_A_A; runGame();\">Ask Mary</button><button type=\"button\" onclick=\"gameSequence = SEG3_1_A_B; runGame();\">Ask John</button><button type=\"button\" onclick=\"gameSequence = SEG3_2; runGame();\">Make your decision now</button>"],
 ]
 
 
@@ -265,7 +315,7 @@ var SEG3_1_A_A = [
 
 var SEG3_1_A_B = [
     ["img-sigh","John"],
-	["textC","Our father constantly preached the gift of longevity to us, he wouldlike to live as long as possible.", ()=>{if(askS == 0){return true;} return false;}],
+	["textC","Our father constantly preached the gift of longevity to us, he would like to live as long as possible.", ()=>{if(askS == 0){return true;} return false;}],
 	["textC","Our father had always loved his friends and family, he would cherish his time alive.", ()=>{if(askS == 1){return true;} return false;}],
 	["textC","Our father once told me that he would hang on with his greateststrength to spend time with us...", ()=>{if(askS == 2){return true;} return false;}],
 	["run",()=>{askS = askS + 1; gameSequence = SEG3_1_A; if(askS + askD >= 3){gameSequence = SEG3_2;} runGame();}]
@@ -274,7 +324,8 @@ var SEG3_1_A_B = [
 
 var SEG3_2 = [
     ["img-emergency","Mr. Chan coma"],
-	["text","You are about to explain your further action, but...Mr. Chan's cardiac monitor begins blaring. His heart rate is zero. It is time to make your decision."],
+	["text","You are about to explain your further action, but..."],
+    ["text", "Mr. Chan's cardiac monitor begins blaring. His heart rate is zero. It is time to make your decision."],
 	["img-fade-in"," Alternate between 'Mr. Chan coma' and 'Mr. Chan coma (Red filter)"],
 	["button", "<button type=\"button\" onclick=\"gameSequence = SEG3_2_A; runGame();\">Resuscitate Mr. Chan</button><button type=\"button\" onclick=\"gameSequence = SEG3_3; runGame();\">Do not resuscitate Mr. Chan</button>"]
 ]
@@ -352,7 +403,7 @@ var END4 = [
     ["text","You observed that although Mary and John are miserable, they also seem to be glad that their father passed on peacefully. "],
     ["img-fade-in","SD happy"],
     ["text","Mary: Thank you for caring for our father for such a long period of time. I'm happy that he could spend his last few months in such good care."],
-	["text","John: Our father had a battle well-fought. Thank you, doctor, for prolonging his lifeand giving him a few more months to spend with us."],
+	["text","John: Our father had a battle well-fought. Thank you, doctor, for prolonging his life and giving him a few more months to spend with us."],
 	["text","Albeit Mr. Chan's regrettable passing, you are content that you did your best and can satisfy his family. You are touched by this experience and are motivated to save more patients' lives. "],
     ["run",()=>{addEnd(4); gameSequence = ENDEND; runGame();}]
 ]
@@ -402,6 +453,14 @@ async function runGame(){
                 for(let i = 1; i < 10 && waitingDuration != 0; i++) { await sleep(waitingDuration / 10); }
             }   
         }
+        else if(gameEvent[0] == "popup"){
+            console.log(gameEvent[1]);
+            document.getElementById("popup").innerHTML = gameEvent[1];
+            $("#popup").show();
+        }
+        else if(gameEvent[0] == "popupno"){
+            $("#popup").hide();
+        }
         else if(gameEvent[0].substring(0, 3) == "img"){
             // directly handle the image, no need await (hopefully)
             changeCharacter(imgSource[gameEvent[1]], gameEvent[0].substring(4));
@@ -443,7 +502,7 @@ function displayStats(){
     }
     msg = "You have discovered " + String(sum) + " out of 6 endings.</br>";
     if(sum == 6){
-        msg = msg + "Congradulations! You have discovered all 6 endings for our story!";
+        msg = msg + "Congratulations! You have discovered all 6 endings for our story!";
     }
     document.getElementById("gameText").innerHTML = msg;
 }
