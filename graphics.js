@@ -323,7 +323,7 @@ var SEG3_1_A_B = [
 
 
 var SEG3_2 = [
-    ["img-emergency","Mr. Chan coma"],
+    ["img-emergency","Mr. Chan Coma"],
 	["text","You are about to explain your further action, but..."],
     ["text", "Mr. Chan's cardiac monitor begins blaring. His heart rate is zero. It is time to make your decision."],
 	["img-fade-in"," Alternate between 'Mr. Chan coma' and 'Mr. Chan coma (Red filter)"],
