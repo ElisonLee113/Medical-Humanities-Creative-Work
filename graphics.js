@@ -142,7 +142,7 @@ var SEG1_2_B = [
     ["text","\"Your X-ray and blood report both confirm our previous suspicion that you have cancer. Our current way to control it is by using chemoradiation therapy. The radiotherapy will help kill the tumor  in bulk, then we will start 3-6 months of chemotherapy to kill the disseminated cancer cells.\""],
 	["text","\"However, during the therapy you may feel pain, nausea, and you will have to come to the clinic on the weeks with chemotherapy cycles. Also, while it helps patients achieve several years of cancer-free survival, it does not guarantee that you will be cured permanently. Is that okay with you?\""],
 	["text","Dr. Wong educates the patient on the diagnosis, explains treatment options and the potential benefits and risks before seeking consent. {Informed consent +1}"],
-	["run", ()=>{O1 = 1}],
+	["run", ()=>{O2 = 1}],
     ["run",()=>{gameSequence = SEG1_3; runGame();}]
 ]
 
@@ -167,7 +167,7 @@ var SEG1_3 = [
 var SEG1_3_A = [
     ["img-nod","Mr. Chan"],
 	["text","\"Okay, I'll consent to getting the chemoradiation therapy.\""],
-	["run",()=>{gameSequence = SEG2_1; runGame();}]
+	["run",()=>{gameSequence = SEG1_4; runGame();}]
 ]
 
 var SEG1_3_B = [
