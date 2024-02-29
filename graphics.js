@@ -21,6 +21,7 @@ var imgSource = {
     "Chan sad pass": "EndSadDeath.png",
     "No consent": "EndNoConsent.png",
     "Chan cure bed": "EndHappySurvive.png",
+    "Court": "court.png"
 }
 
 // controller for the character images
@@ -421,6 +422,7 @@ var END5 = [
 
 var END6 = [
     ["run",activateEnding],
+    ["img-fade-in","Court"],
 	["text","END 6 - Euthanasia???"],
     ["text","Euthanasia is illegal in Hong Kong, be it voluntary or not. You are required to attend disciplinary inquiry by the Hospital Authority and may face permanent license suspension.-	You have offended Offence against the Person Ordinance (Cap. 212) , Section 33B(1). You will be prosecuted for \"aiding the suicide of others\" and may face maximum sentence of 14 years."],
     ["run",()=>{addEnd(6); gameSequence = ENDEND; runGame();}]
