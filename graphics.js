@@ -299,7 +299,7 @@ var SEG3_1_C = [
 ]
 
 var SEG3_1_A = [
-    ["img-coma","Mr. Chan coma"],
+    ["img-coma","Mr. Chan Coma"],
 	["text","Mr. Chan's offspring, Mary and John, rush into the ward, both carrying a worried look. You decide to inquire about Mr. Chan's wish on whether to be resuscitated."],
 	["button", "<button type=\"button\" onclick=\"gameSequence = SEG3_1_A_A; runGame();\">Ask Mary</button><button type=\"button\" onclick=\"gameSequence = SEG3_1_A_B; runGame();\">Ask John</button><button type=\"button\" onclick=\"gameSequence = SEG3_2; runGame();\">Make your decision now</button>"],
 ]
@@ -327,7 +327,6 @@ var SEG3_2 = [
     ["img-emergency","Mr. Chan Coma"],
 	["text","You are about to explain your further action, but..."],
     ["text", "Mr. Chan's cardiac monitor begins blaring. His heart rate is zero. It is time to make your decision."],
-	["img-fade-in"," Alternate between 'Mr. Chan coma' and 'Mr. Chan coma (Red filter)"],
 	["button", "<button type=\"button\" onclick=\"gameSequence = SEG3_2_A; runGame();\">Resuscitate Mr. Chan</button><button type=\"button\" onclick=\"gameSequence = SEG3_3; runGame();\">Do not resuscitate Mr. Chan</button>"]
 ]
 
